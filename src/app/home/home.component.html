@@ -1,0 +1,71 @@
+<div class="container-fluid">
+<div class="row">
+<div class="col-12">
+  <div class= "row">
+      <div class= "col-6">
+          <h1 style="color:#0B1F66;font-style:italic; font-family: 'Times New Roman', Times, serif; font-weight: bold">Hi {{currentUser}}!</h1>
+      </div>
+      <div class="col-4"></div>
+      <div class="col-2">
+            <button class="btn btn-primary" (click)="logout()">Logout</button>
+     </div>
+  </div>  
+  <button class="btn btn-dark my-3" type="button" id="newtask" (click)="isNewtask=true"
+    *ngIf="!isNewtask">NewTask</button>
+  <header class="header" *ngIf="isNewtask">
+    <div class="input-group my-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Task Details</span>
+      </div>
+      <input type="text" [(ngModel)]="task.taskName" aria-describedby="addTaskName" class="form-control">
+      <input type="text" [(ngModel)]="task.taskDescription" aria-describedby="addTaskDescription" class="form-control">
+      <input type="text" [(ngModel)]="task.estimatedTime" aria-describedby="addTaskTime" class="form-control">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" id="addTask" (click)="createTask()">Add</button>
+        <button class="btn btn-outline-secondary" type="button" id="cancelTask" (click)="isNewtask=false">Cancel</button>
+      </div>
+    </div>
+  </header>
+  <section>
+    <ul class="list-group">
+        <div class="row" *ngIf="tasks">
+            <div class="col-3">Name of the task</div>
+            <div class="col-4">Description of the task</div>
+            <div class="col-4">Estimated completion time</div>
+        </div>
+      <li class="list-group-item" *ngFor="let task of tasks">
+        <div class="row">
+          <div class="col-3">{{task.taskName}}</div>
+          <div class="col-4">{{task.taskDescription}}</div>
+          <div class="col-1">{{task.estimatedTime}}</div>
+          <div class="col-2"></div>
+          <div class="col-2">
+            <div class="btn-group" role="group" aria-label="task update">
+              <button type="button" (click)="editComponent(task.id)" class="btn btn-secondary">Edit</button>
+              <button type="button" (click)="deleteUser(task.id)" class="btn btn-danger">Delete</button>
+            </div>
+          </div>
+        </div>
+        <div #editTask class="input-group edit" id="task.id" *ngIf="isEdit && (taskID === task.id)">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Task Details</span>
+            </div>
+            <input type="text" #updateTaskName [value]="task.taskName" aria-describedby="updateTaskName"
+              class="form-control">
+            <input type="text" #updateTaskDescription [value]="task.taskDescription"
+              aria-describedby="updateTaskDescription" class="form-control">
+            <input type="text" #updateTaskTime [value]="task.estimatedTime" aria-describedby="updateTaskTime"
+              class="form-control">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button" id="updateTask"
+                (click)="updateTask(task,task.id,updateTaskName.value,updateTaskDescription.value,updateTaskTime.value)">Update</button>
+              <a [routerLink]="['/home']" (click)="isEdit=false" class="btn btn-link">Cancel</a>
+            </div>
+          </div>
+      </li>
+
+    </ul>
+  </section>
+</div>
+</div>
+</div>
